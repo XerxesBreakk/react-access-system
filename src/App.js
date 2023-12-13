@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+
+//material ui imports
+import { CssBaseline, ThemeProvider } from "@mui/material";
+
+
+import { ColorModeContext, useMode } from "./theme";
+import Topbar from "./scenes/global/Topbar";
+import Login from "./scenes/login/index";
+import RequireAuth from "./components/RequireAuth";
+import UserCreate from './scenes/users/userCreate'; 
+import Users from './scenes/users';
+
+/* 
+import Dashboard from "./scenes/dashboard";
+*/
 
 function App() {
+  const [theme, colorMode] = useMode();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app">
+          <main className="content">
+            <Topbar />
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route element={<RequireAuth />}>
+                <Route path="/users/create" element={<UserCreate />} />
+                <Route path="/users" element={<Users />} />
+            {/* 
+                <Route path="/dash" element={<Dashboard />} />
+              */}
+              </Route>
+            </Routes> 
+          </main>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
   );
 }
 
