@@ -1,21 +1,16 @@
-import { Box, Paper, Button, useTheme } from "@mui/material";
-import Stack from "@mui/material/Stack";
+import { Button, useTheme } from "@mui/material";
 import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Snackbar from "@mui/material/Snackbar";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 import { tokens } from "../../theme";
 import TextField from "@mui/material/TextField";
 
-import Header from "../../components/Header";
 import axios from "../../api/axios";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import SingleFormContainer from "../../components/SingleFormContainer";
 
 const CREATE_USER_URL = "/auth/users/";
 
@@ -118,98 +113,96 @@ const UserCreate = () => {
   });
 
   return (
-    <Box display="flex" justifyContent="center" m="20px">
-      <Paper
-        elevation={3}
-        style={{
-          backgroundColor: colors.primary[400],
-          padding: "10px",
-        }}
-      >
-        <Header title="Nuevo usuario" subtitle="Nuevo usuario solicitante" />
-        {errMsg.errors ? (
-          <Alert severity={errMsg.type}>
-            {Object.entries(errMsg.data).map(([key, value]) => (
-              <div key={key}>
-                <strong>{key}</strong>: {value}
-              </div>
-            ))}
-          </Alert>
-        ) : null}
-        <Stack
-          component="form"
-          spacing={2}
-          onSubmit={formik.handleSubmit}
-          style={{ padding: "5px" }}
-          autoComplete="off"
-        >
-          <TextField
-            onChange={formik.handleChange}
-            helperText={formik.touched.email && formik.errors.email}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            onBlur={formik.handleBlur}
-            id="email"
-            name="email"
-            label="Correo electrónico"
-            variant="standard"
-          />
-          <TextField
-            onChange={formik.handleChange}
-            helperText={formik.touched.first_name && formik.errors.first_name}
-            error={
-              formik.touched.first_name && Boolean(formik.errors.first_name)
-            }
-            onBlur={formik.handleBlur}
-            id="first_name"
-            name="first_name"
-            label="Nombre"
-            variant="standard"
-          />
+    <SingleFormContainer
+      title={"Nuevo usuario"}
+      subtitle={"Ingrese los datos del nuevo usuario"}
+      handleSubmit={formik.handleSubmit}
+    >
+      {errMsg.errors ? (
+        <Alert severity={errMsg.type}>
+          {Object.entries(errMsg.data).map(([key, value]) => (
+            <>
+              <strong>{key}</strong>: {value}
+            </>
 
-          <TextField
-            onChange={formik.handleChange}
-            helperText={formik.touched.username && formik.errors.username}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            onBlur={formik.handleBlur}
-            id="username"
-            name="username"
-            label="Usuario"
-            variant="standard"
-          />
-          <TextField
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            helperText={formik.touched.password && formik.errors.password}
-            id="password"
-            name="password"
-            type="password"
-            label="Contraseña"
-            variant="standard"
-          />
-          <TextField
-            error={
-              formik.touched.re_password && Boolean(formik.errors.re_password)
-            }
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            helperText={formik.touched.re_password && formik.errors.re_password}
-            id="re_password"
-            name="re_password"
-            type="password"
-            label="Confirmar contraseña"
-            variant="standard"
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ background: colors.blueAccent[400] }}
-          >
-            Registrar
-          </Button>
-        </Stack>
-      </Paper>
-    </Box>
+          ))}
+        </Alert>
+      ) : null}
+      <TextField
+        onChange={formik.handleChange}
+        helperText={formik.touched.email && formik.errors.email}
+        error={formik.touched.email && Boolean(formik.errors.email)}
+        onBlur={formik.handleBlur}
+        id="email"
+        name="email"
+        label="Correo electrónico"
+        variant="standard"
+        fullWidth
+      />
+      <TextField
+        onChange={formik.handleChange}
+        helperText={formik.touched.first_name && formik.errors.first_name}
+        error={formik.touched.first_name && Boolean(formik.errors.first_name)}
+        onBlur={formik.handleBlur}
+        id="first_name"
+        name="first_name"
+        label="Nombre"
+        variant="standard"
+        fullWidth
+      />
+
+      <TextField
+        onChange={formik.handleChange}
+        helperText={formik.touched.username && formik.errors.username}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        onBlur={formik.handleBlur}
+        id="username"
+        name="username"
+        label="Usuario"
+        variant="standard"
+        fullWidth
+      />
+      <TextField
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        helperText={formik.touched.password && formik.errors.password}
+        id="password"
+        name="password"
+        type="password"
+        label="Contraseña"
+        variant="standard"
+        fullWidth
+      />
+      <TextField
+        error={formik.touched.re_password && Boolean(formik.errors.re_password)}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        helperText={formik.touched.re_password && formik.errors.re_password}
+        id="re_password"
+        name="re_password"
+        type="password"
+        label="Confirmar contraseña"
+        variant="standard"
+        fullWidth
+      />
+      <Button
+        variant="contained"
+        type="submit"
+        size="medium"
+        sx={{ background: colors.blueAccent[400] }}
+      >
+        Registrar
+      </Button>
+      <Button
+        variant="contained"
+        onClick={()=>{ navigate(from, { replace: true });}}
+        size="medium"
+        sx={{ background: colors.redAccent[500] }}
+      >
+        Cancelar
+      </Button>
+    </SingleFormContainer>
   );
 };
 

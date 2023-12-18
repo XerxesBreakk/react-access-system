@@ -1,4 +1,4 @@
-import { Box, Button, Paper, useTheme } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 
@@ -8,9 +8,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
 import axios from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
+import SingleFormContainer from "../../components/SingleFormContainer";
 
 const LOGIN_URL = "/auth/jwt/create";
 
@@ -27,7 +27,11 @@ const Index = () => {
   //Navigate config
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/users";
+  const from = location.state?.from?.pathname || "/work-order/create";
+
+  if (state.is_authenticated) {
+    navigate(from,{replace:true});
+  }
 
   //Formik Validation
   const formik = useFormik({
@@ -67,55 +71,37 @@ const Index = () => {
   });
 
   return (
-    <Box display="flex" justifyContent="center" m="20px">
-      <Paper
-        elevation={3}
-        style={{ padding: "10px", background: colors.primary[400] }}
+    <SingleFormContainer
+      title={"Iniciar sesion"}
+      subtitle={"Ingrese sus datos de acceso"}
+      handleSubmit={formik.handleSubmit}
+    >
+      {errMsg ? <Alert severity="error"> {errMsg} </Alert> : null}
+      <TextField
+        fullWidth
+        {...formik.getFieldProps("username")}
+        helperText={formik.touched.username && formik.errors.username}
+        error={formik.touched.username && Boolean(formik.errors.username)}
+        label="Usuario"
+        variant="standard"
+      />
+      <TextField
+        fullWidth
+        {...formik.getFieldProps("password")}
+        helperText={formik.touched.password && formik.errors.password}
+        error={formik.touched.password && Boolean(formik.errors.password)}
+        type="password"
+        label="Contraseña"
+        variant="standard"
+      />
+      <Button
+        variant="contained"
+        type="submit"
+        sx={{ background: colors.blueAccent[400] }}
       >
-        <Header title="Login" subtitle="Ingrese sus datos de acceso" />
-
-        {errMsg ? <Alert severity="error"> {errMsg} </Alert> : null}
-        <Box
-          component="form"
-          onSubmit={formik.handleSubmit}
-          my={"10px"}
-          autoComplete="off"
-        >
-          <TextField
-            fullWidth
-            onChange={formik.handleChange}
-            helperText={formik.touched.username && formik.errors.username}
-            error={formik.touched.username && Boolean(formik.errors.username)}
-            onBlur={formik.handleBlur}
-            sx={{ marginBottom: "15px" }}
-            id="username"
-            name="username"
-            label="Usuario"
-            variant="standard"
-          />
-          <TextField
-            fullWidth
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            helperText={formik.touched.password && formik.errors.password}
-            sx={{ marginBottom: "20px" }}
-            id="password"
-            name="password"
-            type="password"
-            label="Contraseña"
-            variant="standard"
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            sx={{ background: colors.blueAccent[400] }}
-          >
-            Iniciar sesion
-          </Button>
-        </Box>
-      </Paper>
-    </Box>
+        Iniciar sesion
+      </Button>
+    </SingleFormContainer>
   );
 };
 

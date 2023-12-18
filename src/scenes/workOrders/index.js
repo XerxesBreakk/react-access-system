@@ -12,28 +12,34 @@ import Header from "../../components/Header";
 
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const Get_USER_LIST_URL = "/auth/users/";
+const GET_WO_LIST_URL = "/work-order/";
 
 //Headers de la tabla
 const columns = [
-  { field: "username", headerName: "Usuario", width: 100 },
+  { field: "date", headerName: "Fecha", width: 100 },
   {
-    field: "first_name",
-    headerName: "Nombre",
-    width: 120,
+    field: "duration",
+    headerName: "Duracion",
+    width: 100,
     editable: false,
   },
   {
-    field: "last_name",
-    headerName: "Apellidos",
+    field: "activity",
+    headerName: "Actividad",
     width: 150,
     editable: false,
   },
   {
-    field: "email",
-    headerName: "correo electronico",
+    field: "company",
+    headerName: "Compañia",
+    width: 100,
+    editable: false,
+  },
+  {
+    field: "capacity",
+    headerName: "Aforo",
     type: "number",
-    width: 180,
+    width: 100,
     editable: false,
   },
   {
@@ -45,15 +51,6 @@ const columns = [
       </Badge>
     )
   },
-  {
-    field: "is_staff",
-    headerName: "Admin",
-    width: 60,
-    renderCell: (params) => (
-      <Badge color={params.value ? 'success' : 'error'} sx={{textAlign:"center"}} badgeContent={params.value ? <CheckCircleIcon /> : <CancelIcon />}>
-      </Badge>
-    )
-  },
 ];
 
 const Index = () => {
@@ -61,7 +58,7 @@ const Index = () => {
   const colors = tokens(theme.palette.mode);
 
   //datos usuarios
-  const [usuarios, setUsuarios] = useState([]);
+  const [ordenes, setOrdenes] = useState([]);
 
   //axios
   const axiosPrivate = useAxiosPrivate();
@@ -70,12 +67,12 @@ const Index = () => {
   useEffect(() => {
     const load_users = async () => {
       try {
-        const response = await axiosPrivate.get(Get_USER_LIST_URL);
+        const response = await axiosPrivate.get(GET_WO_LIST_URL);
         console.log(response); //DELETE
-        setUsuarios(response.data);
+        setOrdenes(response.data);
       } catch (error) {
         console.log(error); //DELETE
-        setUsuarios([]);
+        setOrdenes([]);
       }
     };
     load_users();
@@ -88,11 +85,11 @@ const Index = () => {
         sx={{display:'flex',flexDirection:'column',gap:'10px'}}
       >
         <Header
-          title={"Tabla de usuarios"}
+          title={"Tabla de ordenes de trabajo"}
           subtitle={"Interfaz de administracion de usuarios"}
         ></Header>
         <DataGrid
-          rows={usuarios}
+          rows={ordenes}
           columns={columns}
           initialState={{
             pagination: {
@@ -102,7 +99,7 @@ const Index = () => {
             },
           }}
           pageSizeOptions={[5]}
-          getRowId={(row) => row.username}
+          getRowId={(row) => row.id}
           checkboxSelection
           disableRowSelectionOnClick
         />
@@ -116,10 +113,10 @@ const Index = () => {
             },
           }}
           component={Link}
-          to="/users/create"
+          to="/work-order/create"
           startIcon={<AddIcon />}
         >
-          Nuevo usuario
+          Nueva orden de trabajo
         </Button>
       </Paper>
     </Box>

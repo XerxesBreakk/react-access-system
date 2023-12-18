@@ -1,7 +1,7 @@
-import { Box, Paper, useTheme } from "@mui/material";
+import { Box, Paper, Stack, useTheme } from "@mui/material";
 
 import Header from "./Header";
-import { tokens } from "../../theme";
+import { tokens } from "../theme";
 
 const SingleFormContainer = ({ title, subtitle, handleSubmit, children }) => {
   const theme = useTheme();
@@ -10,17 +10,17 @@ const SingleFormContainer = ({ title, subtitle, handleSubmit, children }) => {
     <Box display="flex" justifyContent="center" m="20px">
       <Paper
         elevation={3}
-        style={{ padding: "10px", background: colors.primary[400] }}
+        sx={{ padding: "10px", background: colors.primary[400],width:{xs: "80%", sm:"70%" , md: "40%"} }}
       >
         <Header title={title} subtitle={subtitle} />
-        <Box
+        <Stack
           component="form"
           onSubmit={handleSubmit}
-          my={"10px"}
           autoComplete="off"
+          gap={3}
         >
           {children}
-        </Box>
+        </Stack>
       </Paper>
     </Box>
   );
