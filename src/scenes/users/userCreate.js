@@ -77,6 +77,7 @@ const UserCreate = () => {
             withCredentials: true,
           }
         );
+        navigate("/users");
         //setOpen(true);
       } catch (error) {
         const newErrMsg = { ...errMsg };

@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import useAuth from "../../hooks/useAuth";
-import { useLocation, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 /*
  */
@@ -29,8 +29,6 @@ const Topbar = () => {
 
   //Navigate config
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/work-order/create";
 
   //Axios Private
   const axiosPrivate = useAxiosPrivate();
@@ -84,9 +82,6 @@ const Topbar = () => {
     setAnchorEl(null);
     login_fail();
   };
-
-
-
 
   return (
     <Box
@@ -150,6 +145,9 @@ const Topbar = () => {
           <MenuItem onClick={() => navigate("/work-order")}>Ver orden de trabajo</MenuItem>
           <MenuItem onClick={() => navigate("/work-order/create")}>
             Crear orden de trabajo
+          </MenuItem>
+          <MenuItem onClick={() => navigate("/work-order/approve")}>
+            Aprobar OTs
           </MenuItem>
         </Menu>
       </Box>

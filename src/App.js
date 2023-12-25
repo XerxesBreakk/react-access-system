@@ -11,6 +11,8 @@ import UserCreate from "./scenes/users/userCreate";
 import Users from "./scenes/users";
 import WorkOrderCreate from "./scenes/workOrders/WorkOrderCreate";
 import WorkOrder from "./scenes/workOrders";
+import WorkOrderApprove from "./scenes/workOrders/WorkOrderApprove";
+import UserActivate from "./scenes/users/UserActivate";
 
 /* 
 import Dashboard from "./scenes/dashboard";
@@ -27,6 +29,7 @@ function App() {
             <Topbar />
             <Routes>
               <Route path="/" element={<Login />} />
+              <Route path="/activate" element={<UserActivate />} />
               <Route element={<RequireAuth />}>
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/create" element={<UserCreate />} />
@@ -34,6 +37,10 @@ function App() {
                 <Route
                   path="/work-order/create"
                   element={<WorkOrderCreate />}
+                />
+                <Route
+                  path="/work-order/approve"
+                  element={<WorkOrderApprove />}
                 />
                 {/* 
                 <Route path="/dash" element={<Dashboard />} />

@@ -8,7 +8,8 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { Button, TextField } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const CREATE_WO_URL = "/work-order/create/";
+
+const CREATE_WO_URL = "/work-order/";
 
 const WorkOrderCreate = () => {
   const theme = useTheme();
@@ -38,7 +39,6 @@ const WorkOrderCreate = () => {
         );
         console.log(response);
         navigate(from,{replace:true});
-        //setOpen(true);
       } catch (error) {
         console.log(error);
         //const newErrMsg = { ...errMsg };
@@ -130,7 +130,7 @@ const WorkOrderCreate = () => {
         type="submit"
         sx={{ background: colors.blueAccent[400] }}
       >
-        Iniciar sesion
+        Crear solicitud
       </Button>
     </SingleFormContainer>
   );

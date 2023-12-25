@@ -79,7 +79,7 @@ const Index = () => {
       }
     };
     load_users();
-  }, []);
+  }, [axiosPrivate]);
   return (
     <Box display="flex" justifyContent="center" m="10px">
       <Paper

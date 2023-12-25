@@ -26,7 +26,7 @@ const columns = [
   {
     field: "activity",
     headerName: "Actividad",
-    width: 150,
+    width: 120,
     editable: false,
   },
   {
@@ -39,7 +39,19 @@ const columns = [
     field: "capacity",
     headerName: "Aforo",
     type: "number",
-    width: 100,
+    width: 50,
+    editable: false,
+  },
+  {
+    field: "applicant_username",
+    headerName: "Solicitante",
+    width: 90,
+    editable: false,
+  },
+  {
+    field: "pin",
+    headerName: "PIN",
+    width: 70,
     editable: false,
   },
   {
@@ -50,7 +62,7 @@ const columns = [
       <Badge color={params.value ? 'success' : 'error'} badgeContent={params.value ? <CheckCircleIcon /> : <CancelIcon />}>
       </Badge>
     )
-  },
+  }
 ];
 
 const Index = () => {
@@ -68,15 +80,14 @@ const Index = () => {
     const load_users = async () => {
       try {
         const response = await axiosPrivate.get(GET_WO_LIST_URL);
-        console.log(response); //DELETE
+        console.log(response.data);
         setOrdenes(response.data);
       } catch (error) {
-        console.log(error); //DELETE
         setOrdenes([]);
       }
     };
     load_users();
-  }, []);
+  }, [axiosPrivate]);
   return (
     <Box display="flex" justifyContent="center" m="10px">
       <Paper
@@ -100,7 +111,7 @@ const Index = () => {
           }}
           pageSizeOptions={[5]}
           getRowId={(row) => row.id}
-          checkboxSelection
+          /* checkboxSelection */
           disableRowSelectionOnClick
         />
         <Button
