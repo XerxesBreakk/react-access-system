@@ -1,6 +1,7 @@
 import { Button, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
+import { Link } from 'react-router-dom';
 
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -30,7 +31,7 @@ const Index = () => {
   const from = location.state?.from?.pathname || "/work-order/create";
 
   if (state.is_authenticated) {
-    navigate(from,{replace:true});
+    navigate(from, { replace: true });
   }
 
   //Formik Validation
@@ -100,6 +101,17 @@ const Index = () => {
         sx={{ background: colors.blueAccent[400] }}
       >
         Iniciar sesion
+      </Button>
+      <Button
+        sx={{
+          backgroundColor: colors.greenAccent[400],
+          color: theme.palette.getContrastText(colors.greenAccent[400]),
+        }}
+        variant="text"
+        component={Link}
+        to="/activate"
+      >
+        Activar usuarios nuevos
       </Button>
     </SingleFormContainer>
   );

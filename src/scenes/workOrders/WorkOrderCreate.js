@@ -26,6 +26,7 @@ const WorkOrderCreate = () => {
   const formik = useFormik({
     initialValues: {
       date: "",
+      start_time: "",
       duration: "",
       activity: "",
       company: "",
@@ -33,9 +34,18 @@ const WorkOrderCreate = () => {
     },
     onSubmit: async (values) => {
       try {
+        // Combina la fecha y la hora de inicio en un campo datetime
+        const dateTime = `${values.date}T${values.start_time}`;
+        const { start_time,date,duration, ...dataWithoutDate } = values;
+        const data = {
+          ...dataWithoutDate,
+          date: dateTime,
+          duration:`${duration}:00`,
+        };
+        console.log(data);
         const response = await axiosPrivate.post(
           CREATE_WO_URL,
-          JSON.stringify(values)
+          JSON.stringify(data)
         );
         console.log(response);
         navigate(from,{replace:true});
@@ -58,6 +68,12 @@ const WorkOrderCreate = () => {
     },
     validationSchema: Yup.object({
       date: Yup.date().required("La fecha es requerida"),
+      start_time: Yup.string()
+        .matches(
+          /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
+          "Formato inválido. Usa hh:mm"
+        )
+        .required("Ingrese la hora de inicio de los trabajos"),
       duration: Yup.string()
         .matches(
           /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/,
@@ -84,6 +100,18 @@ const WorkOrderCreate = () => {
         label="Fecha"
         variant="standard"
         type="date"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      <TextField
+        fullWidth
+        {...formik.getFieldProps("start_time")}
+        helperText={formik.touched.start_time && formik.errors.start_time}
+        error={formik.touched.start_time && Boolean(formik.errors.start_time)}
+        label="Hora de inicio"
+        variant="standard"
+        type="time"
         InputLabelProps={{
           shrink: true,
         }}

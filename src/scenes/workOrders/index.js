@@ -16,7 +16,19 @@ const GET_WO_LIST_URL = "/work-order/";
 
 //Headers de la tabla
 const columns = [
-  { field: "date", headerName: "Fecha", width: 100 },
+  {
+    field: "date", headerName: "Inicio trabajos", width: 140, valueFormatter: (params) => {
+      // Formatea la fecha
+      const date = new Date(params.value);
+      return date.toLocaleString("es-ES", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
+  },
   {
     field: "duration",
     headerName: "Duracion",
@@ -93,7 +105,7 @@ const Index = () => {
       <Paper
         elevation={4}
         style={{ padding: "10px", background: colors.primary[400] }}
-        sx={{display:'flex',flexDirection:'column',gap:'10px'}}
+        sx={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
       >
         <Header
           title={"Tabla de ordenes de trabajo"}

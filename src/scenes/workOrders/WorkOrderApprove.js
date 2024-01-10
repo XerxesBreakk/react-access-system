@@ -58,7 +58,7 @@ const WorkOrderApprove = () => {
       navigate("/work-order");
     } catch (error) {
       console.error(error);
-      // Maneja los errores si es necesario
+      // TODO Handle errors here
     }
   };
 

@@ -23,33 +23,6 @@ const UserCreate = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/users";
 
-  //SnackBar hook
-  /* const [open, setOpen] = useState(false);
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const action = (
-    <>
-      <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={() => {
-          navigate(from, { replace: true });
-        }}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </>
-  ); */
 
   //Error Server-side
   const [errMsg, setErrMsg] = useState({

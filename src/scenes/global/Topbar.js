@@ -165,7 +165,7 @@ const Topbar = () => {
             <IconButton
               aria-controls={open ? "user-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
+              aria-expanded={open ? true : undefined}
               onClick={handleClick}
             >
               <PersonOutlinedIcon />
@@ -174,12 +174,12 @@ const Topbar = () => {
               id="user-menu"
               anchorEl={anchorEl}
               open={open}
-              onClose={handleCloseUser}
+              onClose={handleClose}
               MenuListProps={{
                 "aria-labelledby": "user-button",
               }}
             >
-              <MenuItem onClick={handleClose}>Perfil</MenuItem>
+              <MenuItem onClick={() => navigate("/users/me")}>Perfil</MenuItem>
               <MenuItem onClick={handleCloseLogout}>Cerrar sesion</MenuItem>
             </Menu>
           </>

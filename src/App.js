@@ -13,6 +13,7 @@ import WorkOrderCreate from "./scenes/workOrders/WorkOrderCreate";
 import WorkOrder from "./scenes/workOrders";
 import WorkOrderApprove from "./scenes/workOrders/WorkOrderApprove";
 import UserActivate from "./scenes/users/UserActivate";
+import UserEdit from "./scenes/users/UserEdit";
 
 /* 
 import Dashboard from "./scenes/dashboard";
@@ -33,6 +34,7 @@ function App() {
               <Route element={<RequireAuth />}>
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/create" element={<UserCreate />} />
+                <Route path="/users/me" element={<UserEdit />} />
                 <Route path="/work-order" element={<WorkOrder />} />
                 <Route
                   path="/work-order/create"
