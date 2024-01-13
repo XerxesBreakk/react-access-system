@@ -1,6 +1,5 @@
 import { Button, useTheme } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
 import { Link } from 'react-router-dom';
 
 import { useState } from "react";
@@ -20,7 +19,11 @@ const Index = () => {
   const colors = tokens(theme.palette.mode);
 
   //Error Server-side
-  const [errMsg, setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState({
+    errors: false,
+    type: "warning",
+    data: {},
+  });
 
   //Auth Context
   const { state, login_success, login_fail } = useAuth();
@@ -28,7 +31,7 @@ const Index = () => {
   //Navigate config
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/work-order/create";
+  const from = location.state?.from?.pathname || "/users";
 
   if (state.is_authenticated) {
     navigate(from, { replace: true });
@@ -46,15 +49,20 @@ const Index = () => {
         login_success(response.data);
         navigate(from, { replace: true });
       } catch (error) {
+        const newErrMsg = { ...errMsg };
         if (!error.response) {
-          setErrMsg("Servidor fuera de linea.");
+          newErrMsg.data={'general':'Servidor fuera de linea'}
+          newErrMsg.errors=true;
+          setErrMsg(newErrMsg);
         } else if (
           error.response?.status === 400 ||
           error.response?.status === 401
         ) {
-          setErrMsg(error.response.data.detail);
+          newErrMsg.data = error.response.data;
+          newErrMsg.errors = true;
+          newErrMsg.type = "error";
+          setErrMsg(newErrMsg);
         } else {
-          setErrMsg("Login Fallido.");
         }
         login_fail();
       }
@@ -76,8 +84,8 @@ const Index = () => {
       title={"Iniciar sesion"}
       subtitle={"Ingrese sus datos de acceso"}
       handleSubmit={formik.handleSubmit}
+      errMsg={errMsg}
     >
-      {errMsg ? <Alert severity="error"> {errMsg} </Alert> : null}
       <TextField
         fullWidth
         {...formik.getFieldProps("username")}

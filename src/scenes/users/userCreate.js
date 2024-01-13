@@ -4,7 +4,7 @@ import Alert from "@mui/material/Alert";
 import { tokens } from "../../theme";
 import TextField from "@mui/material/TextField";
 
-import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
@@ -23,6 +23,8 @@ const UserCreate = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/users";
 
+  //axios
+  const axiosPrivate = useAxiosPrivate();
 
   //Error Server-side
   const [errMsg, setErrMsg] = useState({
@@ -42,20 +44,18 @@ const UserCreate = () => {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post(
+        const response = await axiosPrivate.post(
           CREATE_USER_URL,
-          JSON.stringify(values),
-          {
-            headers: { "Content-type": "application/json" },
-            withCredentials: true,
-          }
+          JSON.stringify(values)
         );
         navigate("/users");
         //setOpen(true);
       } catch (error) {
         const newErrMsg = { ...errMsg };
         if (!error.response) {
-          setErrMsg("Servidor fuera de linea.");
+          newErrMsg.data={'general':'Servidor fuera de linea'}
+          newErrMsg.errors=true;
+          setErrMsg(newErrMsg);
         } else if (
           error.response?.status === 400 ||
           error.response?.status === 401
@@ -91,17 +91,8 @@ const UserCreate = () => {
       title={"Nuevo usuario"}
       subtitle={"Ingrese los datos del nuevo usuario"}
       handleSubmit={formik.handleSubmit}
+      errMsg={errMsg}
     >
-      {errMsg.errors ? (
-        <Alert severity={errMsg.type}>
-          {Object.entries(errMsg.data).map(([key, value]) => (
-            <>
-              <strong>{key}</strong>: {value}
-            </>
-
-          ))}
-        </Alert>
-      ) : null}
       <TextField
         onChange={formik.handleChange}
         helperText={formik.touched.email && formik.errors.email}
