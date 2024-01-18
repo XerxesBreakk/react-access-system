@@ -31,7 +31,7 @@ const Index = () => {
   //Navigate config
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || "/work-order/create";
+  const from = location.state?.from?.pathname || "/work-order/";
 
   if (state.is_authenticated) {
     navigate(from, { replace: true });

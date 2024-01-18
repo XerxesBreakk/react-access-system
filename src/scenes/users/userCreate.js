@@ -33,6 +33,7 @@ const UserCreate = () => {
     data: {},
   });
 
+  
   //Formik Validation
   const formik = useFormik({
     initialValues: {
@@ -51,17 +52,19 @@ const UserCreate = () => {
         navigate("/users");
         //setOpen(true);
       } catch (error) {
-        const newErrMsg = { ...errMsg };
+        var newErrMsgUser = { ...errMsg };
         if (!error.response) {
-          setErrMsg("Servidor fuera de linea.");
+          newErrMsgUser.data= {'general': 'Servidor fuera de linea'}
+          newErrMsgUser.errors = true;
+          setErrMsg(newErrMsgUser);
         } else if (
           error.response?.status === 400 ||
           error.response?.status === 401
         ) {
-          newErrMsg.data = error.response.data;
-          newErrMsg.errors = true;
-          newErrMsg.type = "error";
-          setErrMsg(newErrMsg);
+          newErrMsgUser.data = error.response.data;
+          newErrMsgUser.errors = true;
+          newErrMsgUser.type = "error";
+          setErrMsg(newErrMsgUser);
         } else {
         }
       }
@@ -159,7 +162,9 @@ const UserCreate = () => {
       </Button>
       <Button
         variant="contained"
-        onClick={()=>{ navigate(from, { replace: true });}}
+        onClick={() => {
+          navigate(from, { replace: true });
+        }}
         size="medium"
         sx={{ background: colors.redAccent[500] }}
       >

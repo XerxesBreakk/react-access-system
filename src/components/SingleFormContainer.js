@@ -23,13 +23,7 @@ const SingleFormContainer = ({
         }}
       >
         <Header title={title} subtitle={subtitle} />
-        {errMsg.errors ? (<Alert severity={errMsg.type} sx={{marginBottom:"10px"}}>
-          {Object.entries(errMsg.data).map(([key,value]) =>(
-            <>
-              <strong>{key}:</strong> {value}
-            </>
-          ))}
-        </Alert>) : null}
+        
         <Stack
           component="form"
           onSubmit={handleSubmit}
@@ -44,3 +38,12 @@ const SingleFormContainer = ({
 };
 
 export default SingleFormContainer;
+
+
+/* {errMsg.errors ? (<Alert severity={errMsg.type} sx={{marginBottom:"10px"}}>
+          {Object.entries(errMsg.data).map(([key,value]) =>(
+            <>
+              <strong>{key}:</strong> {value}
+            </>
+          ))}
+        </Alert>) : null} */
