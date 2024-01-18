@@ -53,9 +53,7 @@ const UserCreate = () => {
       } catch (error) {
         const newErrMsg = { ...errMsg };
         if (!error.response) {
-          newErrMsg.data={'general':'Servidor fuera de linea'}
-          newErrMsg.errors=true;
-          setErrMsg(newErrMsg);
+          setErrMsg("Servidor fuera de linea.");
         } else if (
           error.response?.status === 400 ||
           error.response?.status === 401
