@@ -1,5 +1,4 @@
 import { Button, useTheme } from "@mui/material";
-import Alert from "@mui/material/Alert";
 
 import { tokens } from "../../theme";
 import TextField from "@mui/material/TextField";
@@ -93,6 +92,7 @@ const UserCreate = () => {
       subtitle={"Ingrese los datos del nuevo usuario"}
       handleSubmit={formik.handleSubmit}
       errMsg={errMsg}
+      errMsgHandler={setErrMsg}
     >
       <TextField
         onChange={formik.handleChange}

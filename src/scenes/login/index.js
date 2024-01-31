@@ -85,6 +85,7 @@ const Index = () => {
       subtitle={"Ingrese sus datos de acceso"}
       handleSubmit={formik.handleSubmit}
       errMsg={errMsg}
+      errMsgHandler={setErrMsg}
     >
       <TextField
         fullWidth
