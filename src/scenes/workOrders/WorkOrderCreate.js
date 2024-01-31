@@ -34,19 +34,19 @@ const WorkOrderCreate = () => {
     },
     onSubmit: async (values) => {
       try {
-        // Combina la fecha y la hora de inicio en un campo datetime
-        /* const dateTime = `${values.date}T${values.start_time}`;
-        const { start_time,date,duration, ...dataWithoutDate } = values;
+        // Arregla el campo duration
+        
+        const { duration, ...dataWithoutDuration } = values;
+        console.log(duration)
         const data = {
-          ...dataWithoutDate,
-          date: dateTime,
+          ...dataWithoutDuration,
           duration:`${duration}:00`,
         };
-        */
+        
         console.log(values); 
         const response = await axiosPrivate.post(
           CREATE_WO_URL,
-          JSON.stringify(values)
+          JSON.stringify(data)
         );
         console.log(response);
         navigate(from,{replace:true});

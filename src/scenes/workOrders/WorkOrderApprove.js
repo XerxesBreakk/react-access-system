@@ -45,7 +45,7 @@ const WorkOrderApprove = () => {
         );
         console.log(res);
         setOts(res.data);
-      } catch (err) {}
+      } catch (err) { }
     };
     load_ots();
   }, [axiosPrivate]);
@@ -58,6 +58,7 @@ const WorkOrderApprove = () => {
       navigate("/work-order");
     } catch (error) {
       console.error(error);
+      console.log(error);
       // TODO Handle errors here
     }
   };
@@ -92,7 +93,13 @@ const WorkOrderApprove = () => {
                       <TableCell component="th" scope="row">
                         {ot.applicant_username}
                       </TableCell>
-                      <TableCell align="right">{ot.date}</TableCell>
+                      <TableCell align="right">{Date(ot.date).toLocaleString("es-ES", {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}</TableCell>
                       <TableCell align="right">{ot.company}</TableCell>
                       <TableCell align="right">{ot.duration}</TableCell>
                       <TableCell align="right">{ot.activity}</TableCell>

@@ -24,7 +24,10 @@ const GET_USER_URL = "/auth/users/me/";
 const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  //toggle dark mode
   const colorMode = useContext(ColorModeContext);
+  
   const { state, user_loaded_success, login_fail } = useAuth();
 
   //Navigate config

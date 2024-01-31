@@ -17,7 +17,7 @@ const GET_WO_LIST_URL = "/work-order/";
 //Headers de la tabla
 const columns = [
   {
-    field: "date", headerName: "Inicio trabajos", width: 140, valueFormatter: (params) => {
+    field: "datetime", headerName: "Inicio trabajos", width: 140, valueFormatter: (params) => {
       // Formatea la fecha
       const date = new Date(params.value);
       return date.toLocaleString("es-ES", {
@@ -32,6 +32,12 @@ const columns = [
   {
     field: "duration",
     headerName: "Duracion",
+    width: 100,
+    editable: false,
+  },
+  {
+    field: "id",
+    headerName: "id",
     width: 100,
     editable: false,
   },
@@ -92,7 +98,6 @@ const Index = () => {
     const load_users = async () => {
       try {
         const response = await axiosPrivate.get(GET_WO_LIST_URL);
-        console.log(response.data);
         setOrdenes(response.data);
       } catch (error) {
         setOrdenes([]);
