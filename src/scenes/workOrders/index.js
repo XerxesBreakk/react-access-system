@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Paper, useTheme } from "@mui/material";
+import { Badge, Box, Button, Paper, useTheme,Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import { DataGrid } from "@mui/x-data-grid";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -116,7 +116,9 @@ const Index = () => {
           title={"Tabla de ordenes de trabajo"}
           subtitle={"Interfaz de administracion de usuarios"}
         ></Header>
-        <DataGrid
+        {ordenes.length>0 ?(
+          
+          <DataGrid
           rows={ordenes}
           columns={columns}
           initialState={{
@@ -130,7 +132,15 @@ const Index = () => {
           getRowId={(row) => row.id}
           /* checkboxSelection */
           disableRowSelectionOnClick
-        />
+        />) :(<Typography
+          variant="h2"
+          color={colors.grey[400]}
+          fontWeight="bold"
+          sx={{ m: "0 0 5px 0" }}
+        >
+          NO NEW DATA
+        </Typography>)}
+        
         <Button
           variant="outlined"
           sx={{

@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import React from "react";
+import React, { useState } from "react";
 import { tokens } from "../../theme";
 import SingleFormContainer from "../../components/SingleFormContainer";
 import { useFormik } from "formik";
@@ -17,6 +17,13 @@ const WorkOrderCreate = () => {
 
   //Axios Private
   const axiosPrivate = useAxiosPrivate();
+
+  //Error Server-side
+  const [errMsg, setErrMsg] = useState({
+    errors: false,
+    type: "warning",
+    data: {},
+  });
 
   //Navigate config
   const navigate = useNavigate();
@@ -53,16 +60,20 @@ const WorkOrderCreate = () => {
       } catch (error) {
         console.log(error);
         //const newErrMsg = { ...errMsg };
+        var newErrMsgUser = { ...errMsg };
         if (!error.response) {
           //setErrMsg("Servidor fuera de linea.");
+          newErrMsgUser.data= {'general': 'Servidor fuera de linea'}
+          newErrMsgUser.errors = true;
+          setErrMsg(newErrMsgUser);
         } else if (
           error.response?.status === 400 ||
           error.response?.status === 401
         ) {
-          /* newErrMsg.data = error.response.data;
-          newErrMsg.errors = true;
-          newErrMsg.type = "error";
-          setErrMsg(newErrMsg); */
+          newErrMsgUser.data = error.response.data;
+          newErrMsgUser.errors = true;
+          newErrMsgUser.type = "error";
+          setErrMsg(newErrMsgUser);
         } else {
         }
       }
@@ -92,6 +103,8 @@ const WorkOrderCreate = () => {
       title={"Nueva orden de trabajo"}
       subtitle={"Ingrese la información sobre el trabajo a realizar"}
       handleSubmit={formik.handleSubmit}
+      errMsg={errMsg}
+      errMsgHandler={setErrMsg}
     >
       <TextField
         fullWidth
